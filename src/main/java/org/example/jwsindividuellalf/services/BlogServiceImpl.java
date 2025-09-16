@@ -91,13 +91,6 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public ResponseEntity<?> countBlogs(JwtAuthenticationToken token) {
-        boolean isAdmin = token.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_Blog_ADMIN"));
-
-        if (!isAdmin) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorised to view this page.");
-        }
-
         return ResponseEntity.ok(blogRepository.count()) ;
     }
 }
