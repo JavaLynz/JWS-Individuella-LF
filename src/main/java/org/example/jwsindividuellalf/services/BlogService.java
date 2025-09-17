@@ -18,7 +18,7 @@ public interface BlogService {
 
     public ResponseEntity<?> deleteBlogById(Long id, JwtAuthenticationToken token);
 
-    public ResponseEntity<?> countBlogs(JwtAuthenticationToken token);
+    public ResponseEntity<?> countBlogs();
 
 
 }

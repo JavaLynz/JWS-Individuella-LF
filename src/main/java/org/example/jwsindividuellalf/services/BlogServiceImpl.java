@@ -90,7 +90,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public ResponseEntity<?> countBlogs(JwtAuthenticationToken token) {
+    public ResponseEntity<?> countBlogs() {
         return ResponseEntity.ok(blogRepository.count()) ;
     }
 }

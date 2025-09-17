@@ -22,38 +22,34 @@ public class BlogController {
         this.blogServiceImpl = blogServiceImpl;
     }
 
-    @GetMapping("/posts")               //authenticated only
+    @GetMapping("/posts")
     public ResponseEntity<List<BlogPost>> getAllPosts() {
         return ResponseEntity.ok(blogServiceImpl.getAllPosts());
     }
 
-    @GetMapping("/post/{id}")           //authenticated only
+    @GetMapping("/post/{id}")
     public ResponseEntity<BlogPost> getPostById(@PathVariable("id") Long id){
         return ResponseEntity.ok(blogServiceImpl.getBlogById(id));
     }
 
     @GetMapping("/count")
-    @PreAuthorize("hasRole('Blog_ADMIN')")//admin only
-    public ResponseEntity<?> getBlogPostCount(JwtAuthenticationToken token){
-        return blogServiceImpl.countBlogs(token);
+    public ResponseEntity<?> getBlogPostCount(){
+        return blogServiceImpl.countBlogs();
     }
 
     @PostMapping("/newpost")
-    @PreAuthorize("hasRole('Blog_USER')")//required role = user
     public ResponseEntity<BlogPost> createPost
             (@RequestBody BlogPost blogPost, JwtAuthenticationToken token){
         return new ResponseEntity<>(blogServiceImpl.addBlog(blogPost,token), HttpStatus.CREATED);
     }
 
     @PutMapping("/updatepost")
-    @PreAuthorize("hasRole('Blog_USER')")//required role = user + owner of the blog post
     public ResponseEntity<?> updateBlog
             (@RequestBody BlogPost blogPostToUpdate, JwtAuthenticationToken token){
         return ResponseEntity.ok(blogServiceImpl.updateBlog(blogPostToUpdate,token));
     }
 
     @DeleteMapping("/deletepost/{id}")
-    @PreAuthorize("hasAnyRole('Blog_ADMIN','Blog_USER')")//role required: admin or user + owner of the blog post
     public ResponseEntity<?> deletePostById(@PathVariable("id") Long id, JwtAuthenticationToken token){
         return blogServiceImpl.deleteBlogById(id, token);
     }
